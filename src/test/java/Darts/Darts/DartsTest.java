@@ -15,6 +15,8 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.partialMockBuilder;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
 
 /**
  * @author Paweł
@@ -175,6 +177,37 @@ public class DartsTest{
 		expect(mockDarts.throwDarts(player1, builder)).andReturn(pair);
 		replay(mockDarts);
 		Assert.assertFalse(mockDarts.playerTurn(player1, builder, false));
+	}
+	
+	@Test
+	public void startLegFinishLegInFirstPlayerTurnTest() {
+		mockDarts = partialMockBuilder(Darts.class).addMockedMethod("playerTurn").createMock();
+		player1 = mockDarts.player1;
+		player2 = mockDarts.player2;
+		expect(mockDarts.playerTurn(eq(player1), anyObject(StringBuilder.class), eq(false))).andReturn(true);
+		expect(mockDarts.playerTurn(eq(player2), anyObject(StringBuilder.class), eq(true))).andReturn(true);
+		replay(mockDarts);
+		Assert.assertNotNull(mockDarts.startLeg());
+	}
+	
+	@Test
+	public void startLegFinishLegInSecondPlayerTurnTest() {
+		mockDarts = partialMockBuilder(Darts.class).addMockedMethod("playerTurn").createMock();
+		player1 = mockDarts.player1;
+		player2 = mockDarts.player2;
+		expect(mockDarts.playerTurn(eq(player1), anyObject(StringBuilder.class), eq(false))).andReturn(false);
+		expect(mockDarts.playerTurn(eq(player2), anyObject(StringBuilder.class), eq(false))).andReturn(true);
+		replay(mockDarts);
+		Assert.assertNotNull(mockDarts.startLeg());
+	}
+	
+	@Test
+	public void startGameTest() {
+		mockDarts = partialMockBuilder(Darts.class).addMockedMethod("startLeg").createMock();
+		expect(mockDarts.startLeg()).andReturn(new StringBuilder(""));
+		expect(mockDarts.startLeg()).andReturn(new StringBuilder(""));
+		replay(mockDarts);
+		Assert.assertNotNull(mockDarts.startGame());
 	}
 	
 	@After

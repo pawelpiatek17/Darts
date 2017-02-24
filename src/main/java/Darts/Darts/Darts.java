@@ -11,6 +11,12 @@ public class Darts {
 	Player player1;
 	Player player2;
 	public String winner;
+	public Darts() {
+		super();
+		this.numberOfLegs = 1;
+		player1 = new Player(1);
+		player2 = new Player(2);
+	}
 	public Darts(int numberOfLegs) {
 		super();
 		this.numberOfLegs = numberOfLegs;
@@ -36,7 +42,7 @@ public class Darts {
 		while (!finishLeg){
 			finishLeg = playerTurn(player1, courseOfTheLeg, finishLeg);
 			finishLeg = playerTurn(player2, courseOfTheLeg, finishLeg);
-			logger.debug("startLeg: while(!finishLeg) -> finishLeg = " + finishLeg);
+			//logger.debug("startLeg: while(!finishLeg) -> finishLeg = " + finishLeg);
 		}
 		return courseOfTheLeg;
 	}
@@ -116,7 +122,7 @@ public class Darts {
 	class Player {
 		private int number;
 		int points;
-		public Player(int number) {
+		Player(int number) {
 			super();
 			this.number = number;
 			this.points = 301;
